@@ -1,0 +1,2 @@
+code,name,email,phone,address,credit_limit,max_discount_rate,rejection_reason
+CUST-MIG-01,DUPLICATE RECORD SHOULD BE REJECTED,dup@test.com,812340006.0,Jl. Salah,1000.0,5.0,Duplicate customer code

@@ -1,0 +1,8 @@
+code,name,email,phone,address,credit_limit,max_discount_rate
+CUST-MIG-01,PT Madura Pangan Abadi,pangan@madura.test,0812340001,Jl. Kalianget No. 12 Sumenep,250000000,10.0
+CUST-MIG-02,CV Garam Mandiri Sampang,mandiri@sampang.test,0812340002,Jl. Raya Camplong Sampang,100000000,8.0
+CUST-MIG-03,UD Garam Berkah Pamekasan,berkah@pamekasan.test,0812340003,Jl. Trunojoyo Pamekasan,50000000,5.0
+CUST-MIG-04,Toko Bintang Laut Bangkalan,bintang@bangkalan.test,0812340004,Jl. Kamal Bangkalan,30000000,5.0
+CUST-MIG-05,Koperasi Tambak Sejahtera,koperasi@tambak.test,0812340005,Kawasan Garam Pinggirpapas,150000000,12.0
+CUST-MIG-01,DUPLICATE RECORD SHOULD BE REJECTED,dup@test.com,0812340006,Jl. Salah,1000,5.0
+INVALID_CODE,Missing required fields,,,,

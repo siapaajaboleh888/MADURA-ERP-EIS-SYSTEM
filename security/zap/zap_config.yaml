@@ -1,0 +1,49 @@
+# OWASP ZAP Automation Configuration for Madura ERP/EIS
+# Week 10: Security Testing Baseline Scan
+
+env:
+  contexts:
+    - name: "Madura ERP API Context"
+      urls:
+        - "http://127.0.0.1:8000/api"
+      includePaths:
+        - "http://127.0.0.1:8000/api.*"
+      excludePaths:
+        - "http://127.0.0.1:8000/api/auth/logout"
+      authentication:
+        method: "json"
+        parameters:
+          loginUrl: "http://127.0.0.1:8000/api/auth/login"
+          loginRequestData: '{"email":"admin@madura-erp.local","password":"password123"}'
+  parameters:
+    failOnError: false
+    failOnWarning: false
+    progressToStdout: true
+
+jobs:
+  - type: spider
+    parameters:
+      context: "Madura ERP API Context"
+      user: "Admin"
+      maxDuration: 5
+      maxDepth: 5
+
+  - type: passiveScan-config
+    parameters:
+      maxAlertsPerRule: 10
+      scanOnlyInScope: true
+
+  - type: activeScan
+    parameters:
+      context: "Madura ERP API Context"
+      user: "Admin"
+      policy: "API-Minimal-Safe"
+      maxRuleDurationInMins: 2
+      maxScanDurationInMins: 10
+
+  - type: report
+    parameters:
+      template: "traditional-html"
+      reportDir: "security/zap/reports"
+      reportFile: "zap-security-report.html"
+      reportTitle: "Madura ERP / EIS OWASP Security Audit Report"
