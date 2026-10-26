@@ -77,7 +77,7 @@ export default function PurchasingPage() {
   // New PO form state
   const [formSupplierId, setFormSupplierId] = useState<number | "">("");
   const [formWarehouseId, setFormWarehouseId] = useState<number | "">("");
-  const [formOrderDate, setFormOrderDate] = useState(new Date().toISOString().split("T")[0]);
+  const [formOrderDate, setFormOrderDate] = useState("");
   const [formExpectedDate, setFormExpectedDate] = useState("");
   const [formNotes, setFormNotes] = useState("");
   const [formItems, setFormItems] = useState<{ product_id: number; quantity: number; unit_price: number }[]>([
@@ -86,6 +86,7 @@ export default function PurchasingPage() {
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
+    setFormOrderDate(new Date().toISOString().split("T")[0]);
     fetchOrders();
     fetchSuppliers();
     fetchWarehouses();

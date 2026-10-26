@@ -66,7 +66,7 @@ export default function ProductionPage() {
   const [targetProductId, setTargetProductId] = useState<number | "">("");
   const [warehouseId, setWarehouseId] = useState<number | "">("");
   const [targetQty, setTargetQty] = useState(500);
-  const [startDate, setStartDate] = useState(new Date().toISOString().split("T")[0]);
+  const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [notes, setNotes] = useState("");
   const [materials, setMaterials] = useState<{ product_id: number; required_quantity: number }[]>([
@@ -75,6 +75,7 @@ export default function ProductionPage() {
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
+    setStartDate(new Date().toISOString().split("T")[0]);
     fetchOrders();
     fetchProducts();
     fetchWarehouses();
