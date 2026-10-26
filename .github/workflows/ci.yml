@@ -11,17 +11,6 @@ jobs:
     name: Backend Test Suite (PHP 8.4 & Laravel 12)
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:16-alpine
-        env:
-          POSTGRES_DB: madura_test
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: password
-        ports:
-          - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
     steps:
       - uses: actions/checkout@v4
 
@@ -29,8 +18,8 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.4'
-          extensions: mbstring, xml, ctype, iconv, intl, pdo, pdo_pgsql, bcmath
-          coverage: xdebug
+          extensions: mbstring, xml, ctype, iconv, intl, pdo, sqlite3, pdo_sqlite, bcmath
+          coverage: none
 
       - name: Install Backend Dependencies
         working-directory: ./backend
@@ -40,21 +29,21 @@ jobs:
         working-directory: ./backend
         run: |
           cp .env.example .env
+          touch database/database.sqlite
           php artisan key:generate
 
       - name: Execute Migrations and Seeders
         working-directory: ./backend
         env:
-          DB_CONNECTION: pgsql
-          DB_HOST: 127.0.0.1
-          DB_PORT: 5432
-          DB_DATABASE: madura_test
-          DB_USERNAME: postgres
-          DB_PASSWORD: password
-        run: php artisan migrate:fresh --seed
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
+        run: php artisan migrate:fresh --seed --force
 
       - name: Run Backend Unit & Feature Tests
         working-directory: ./backend
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
         run: php artisan test
 
   frontend-build:
@@ -77,4 +66,6 @@ jobs:
 
       - name: Build Next.js Application
         working-directory: ./frontend
+        env:
+          NEXT_PUBLIC_API_URL: http://127.0.0.1:8000/api
         run: npm run build
