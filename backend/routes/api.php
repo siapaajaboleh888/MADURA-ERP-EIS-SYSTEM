@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\SalesOrderController;
 use App\Http\Controllers\Api\InvoiceController;
 use App\Http\Controllers\Api\PurchasingController;
 use App\Http\Controllers\Api\ProductionController;
+use App\Http\Controllers\Api\DeliveryController;
 use App\Http\Controllers\Api\EisController;
 use App\Http\Controllers\Api\QaController;
 use App\Http\Controllers\Api\HealthController;
@@ -43,6 +44,16 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('products', ProductController::class);
     Route::apiResource('customers', CustomerController::class);
     Route::apiResource('suppliers', SupplierController::class);
+    Route::get('/warehouses', function () {
+        return response()->json([
+            'success' => true,
+            'message' => 'Warehouses retrieved successfully',
+            'data' => \App\Models\Warehouse::where('is_active', true)->get(),
+        ]);
+    });
+
+    // Deliveries
+    Route::apiResource('deliveries', DeliveryController::class)->only(['index', 'show']);
 
     // Inventory
     Route::get('/inventory', [InventoryController::class, 'index']);
