@@ -27,3 +27,6 @@ backend/database/*.sqlite-journal
 .idea/
 .DS_Store
 Thumbs.db
+
+~$*.docx
+
