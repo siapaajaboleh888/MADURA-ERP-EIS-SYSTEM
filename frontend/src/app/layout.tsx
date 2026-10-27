@@ -34,7 +34,7 @@ function AppContent({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen bg-slate-950 text-slate-100">
       <Sidebar />
-      <main className="flex-1 overflow-y-auto p-6 bg-slate-950">{children}</main>
+      <main className="flex-1 overflow-y-auto p-6 bg-slate-950 min-h-screen">{children}</main>
     </div>
   );
 }
