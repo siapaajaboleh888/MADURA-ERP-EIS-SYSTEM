@@ -23,19 +23,34 @@ export function Sidebar() {
   const pathname = usePathname();
   const { user, logout } = useAuth();
 
-  const navItems = [
-    { name: "Executive Dashboard", href: "/", icon: LayoutDashboard },
-    { name: "Master Data (Products)", href: "/products", icon: Package },
-    { name: "Customers & Partners", href: "/customers", icon: Users },
-    { name: "Inventory & Stock Card", href: "/inventory", icon: Boxes },
-    { name: "Sales & Orders", href: "/sales", icon: ShoppingCart },
-    { name: "Purchasing & Raw Salt", href: "/purchasing", icon: FileText },
-    { name: "Production & Refinement", href: "/production", icon: Factory },
-    { name: "Delivery Orders", href: "/deliveries", icon: Truck },
-    { name: "Finance & Invoices", href: "/finance", icon: BadgeDollarSign },
-    { name: "Course Control Center", href: "/course-center", icon: GraduationCap },
-    { name: "QA & Traceability", href: "/qa-traceability", icon: ShieldCheck },
+  // Menu visibility per role
+  const roleMenuMap: Record<string, string[]> = {
+    ADMIN:      ["/", "/products", "/customers", "/inventory", "/sales", "/purchasing", "/production", "/deliveries", "/finance", "/course-center", "/qa-traceability"],
+    MANAGER:    ["/", "/products", "/customers", "/inventory", "/sales", "/purchasing", "/production", "/deliveries", "/finance", "/qa-traceability"],
+    SALES:      ["/sales", "/customers", "/deliveries", "/products"],
+    WAREHOUSE:  ["/inventory", "/purchasing", "/deliveries", "/products"],
+    PRODUCTION: ["/production", "/inventory", "/products"],
+    FINANCE:    ["/finance", "/sales", "/deliveries", "/"],
+    CUSTOMER:   ["/sales", "/deliveries"],
+  };
+
+  const allowedHrefs = roleMenuMap[user?.role ?? ""] ?? [];
+
+  const allNavItems = [
+    { name: "Executive Dashboard",    href: "/",             icon: LayoutDashboard },
+    { name: "Master Data (Products)", href: "/products",     icon: Package },
+    { name: "Customers & Partners",   href: "/customers",    icon: Users },
+    { name: "Inventory & Stock Card", href: "/inventory",    icon: Boxes },
+    { name: "Sales & Orders",         href: "/sales",        icon: ShoppingCart },
+    { name: "Purchasing & Raw Salt",  href: "/purchasing",   icon: FileText },
+    { name: "Production & Refinement",href: "/production",   icon: Factory },
+    { name: "Delivery Orders",        href: "/deliveries",   icon: Truck },
+    { name: "Finance & Invoices",     href: "/finance",      icon: BadgeDollarSign },
+    { name: "Course Control Center",  href: "/course-center",icon: GraduationCap },
+    { name: "QA & Traceability",      href: "/qa-traceability", icon: ShieldCheck },
   ];
+
+  const navItems = allNavItems.filter(item => allowedHrefs.includes(item.href));
 
   return (
     <div className="w-64 bg-slate-900 text-white min-h-screen flex flex-col justify-between border-r border-slate-800">
