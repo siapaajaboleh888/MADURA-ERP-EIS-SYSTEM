@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { ShieldCheck, KeyRound, Mail, AlertCircle, Eye, EyeOff } from "lucide-react";
+import { LOGIN_BACKGROUND } from "@/lib/backgrounds";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("admin@madura-erp.local");
@@ -35,8 +36,21 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center p-4 bg-slate-950">
-      <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-xl p-8 shadow-2xl">
+    <div className="relative min-h-screen flex items-center justify-center p-4 bg-slate-950 overflow-hidden">
+      {/* Background with Madura Salt Flat Landscape */}
+      <div
+        className="pointer-events-none absolute inset-0 z-0 bg-cover bg-center"
+        style={{
+          backgroundImage: `url('${LOGIN_BACKGROUND.image}')`,
+          opacity: LOGIN_BACKGROUND.opacity,
+        }}
+      />
+      {/* Ambient Gradient Overlay */}
+      <div
+        className={`pointer-events-none absolute inset-0 z-0 bg-gradient-to-tr ${LOGIN_BACKGROUND.overlay}`}
+      />
+
+      <div className="relative z-10 w-full max-w-md bg-slate-900/95 backdrop-blur-md border border-slate-800/80 rounded-xl p-8 shadow-2xl">
         <div className="text-center mb-6">
           <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-amber-500 text-slate-950 font-bold text-2xl mb-3 shadow-lg shadow-amber-500/20">
             M

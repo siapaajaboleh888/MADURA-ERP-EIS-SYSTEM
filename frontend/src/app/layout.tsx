@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
 import { Sidebar } from "@/components/Sidebar";
 import { usePathname, useRouter } from "next/navigation";
+import { ROLE_BACKGROUNDS } from "@/lib/backgrounds";
 import "./globals.css";
 
 function AppContent({ children }: { children: React.ReactNode }) {
@@ -31,10 +32,27 @@ function AppContent({ children }: { children: React.ReactNode }) {
     );
   }
 
+  const roleConfig = ROLE_BACKGROUNDS[user.role] || ROLE_BACKGROUNDS.ADMIN;
+
   return (
     <div className="flex min-h-screen bg-slate-950 text-slate-100">
       <Sidebar />
-      <main className="flex-1 overflow-y-auto p-6 bg-slate-950 min-h-screen">{children}</main>
+      <main className="relative flex-1 overflow-y-auto p-6 bg-slate-950 min-h-screen">
+        {/* Role-based Dynamic Background */}
+        <div
+          className="pointer-events-none fixed inset-0 left-64 z-0 bg-cover bg-center transition-all duration-700 ease-in-out"
+          style={{
+            backgroundImage: `url('${roleConfig.image}')`,
+            opacity: roleConfig.opacity,
+          }}
+        />
+        {/* Overlay Gradient for readability */}
+        <div
+          className={`pointer-events-none fixed inset-0 left-64 z-0 bg-gradient-to-br ${roleConfig.overlay}`}
+        />
+        {/* Content Container */}
+        <div className="relative z-10">{children}</div>
+      </main>
     </div>
   );
 }
