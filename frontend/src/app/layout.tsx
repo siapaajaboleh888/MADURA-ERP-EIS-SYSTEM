@@ -37,7 +37,7 @@ function AppContent({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen bg-slate-950 text-slate-100">
       <Sidebar />
-      <main className="relative flex-1 overflow-y-auto p-6 bg-slate-950 min-h-screen">
+      <main className="relative flex-1 overflow-y-auto p-6 min-h-screen">
         {/* Role-based Dynamic Background */}
         <div
           className="pointer-events-none fixed inset-0 left-64 z-0 bg-cover bg-center transition-all duration-700 ease-in-out"
